@@ -21,7 +21,15 @@ public class PaginationTagHelper : TagHelper
     [HtmlAttributeNotBound] // prevent users to not be able to access the infromation from the ViewCOntext
     public ViewContext? ViewContext { get; set; }
     public string? PageAction { get; set; } // what action are we on in out controller
+    
+    [HtmlAttributeName(DictionaryAttributePrefix ="page-url-")] // the prefix for the dictionary
+    public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
     public PaginationInfo PageModel { get; set; } // the information about the page
+    
+    public bool PageClassesEnabled { get; set; } = false;
+    public string PageClass { get; set; } = String.Empty;
+    public string PageClassNormal { get; set; } = String.Empty;
+    public string PageClassSelected { get; set; } = String.Empty;
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         if (ViewContext != null && PageModel != null)
@@ -34,7 +42,15 @@ public class PaginationTagHelper : TagHelper
             {
                 TagBuilder tag = new TagBuilder("a");
                 
-                tag.Attributes["href"] = urlHelper.Action(PageAction, new { pageNum = i });
+                PageUrlValues["pageNum"] = 1;
+                tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+                
+                if(PageClassesEnabled)
+                {
+                    tag.AddCssClass(PageClass);
+                    tag.AddCssClass(i == PageModel.currentPage ? PageClassSelected : PageClassNormal);
+                }
+                
                 tag.InnerHtml.Append(i.ToString());
                 
                 result.InnerHtml.AppendHtml(tag);
@@ -43,4 +59,4 @@ public class PaginationTagHelper : TagHelper
             output.Content.AppendHtml(result.InnerHtml);
         }
     }
-}
+} 

@@ -13,13 +13,14 @@ public class HomeController : Controller
         _repo = temp;
     }
     
-    public IActionResult Index(int pageNum)
+    public IActionResult Index(int pageNum, string? projectType)
     {
         int pageSize = 2;
 
         var blah = new ProjectListViewModel
         {
             Projects = _repo.Projects
+                .Where(x => x.ProjectType == projectType || projectType == null)
                 .OrderBy(x => x.ProjectName)
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize),
@@ -28,8 +29,10 @@ public class HomeController : Controller
             {
                 currentPage = pageNum,
                 itemsPerPage = pageSize,
-                totalItems = _repo.Projects.Count()
-            }
+                totalItems = projectType == null ? _repo.Projects.Count() : _repo.Projects.Where(x => x.ProjectType == projectType).Count()
+            },
+            
+            CurrentProjectType = projectType
         };
         
         return View(blah);

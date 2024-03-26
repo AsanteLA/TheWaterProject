@@ -125,3 +125,4 @@
 /Users/asante/RiderProjects/TheWaterProject/TheWaterProject/obj/Debug/net8.0/TheWaterProject.pdb
 /Users/asante/RiderProjects/TheWaterProject/TheWaterProject/obj/Debug/net8.0/TheWaterProject.genruntimeconfig.cache
 /Users/asante/RiderProjects/TheWaterProject/TheWaterProject/obj/Debug/net8.0/ref/TheWaterProject.dll
+/Users/asante/RiderProjects/TheWaterProject/TheWaterProject/obj/Debug/net8.0/TheWaterProject.sourcelink.json
